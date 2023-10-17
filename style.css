@@ -1,0 +1,238 @@
+/* DEFAULTS */
+:root {
+  --system-font: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family: "IBM Plex Sans", sans-serif;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  font-family: var(--font-family), var(--system-font);
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  font-size: clamp(14px, 1vw, 16px);
+}
+header {
+  width: 100%;
+  padding: 22px;
+  text-align: center;
+}
+main {
+  width: 80%;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+}
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  height: 400px;
+  text-align: center;
+  > p {
+    margin: 28px 48px;
+  }
+}
+p {
+  font-size: 1em;
+}
+ul,
+li {
+  list-style-type: none;
+  text-decoration: none;
+}
+ion-icon {
+  color: #161616;
+  height: 100%;
+  width: 100%;
+}
+
+/* COMPONENTS */
+
+/* DROPDOWN */
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  width: 148px;
+}
+.dropdown {
+  height: 24px;
+  width: 24px;
+  background: #ffffff;
+  border: none;
+  padding: 4px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.dropdown-content {
+  display: none;
+  position: relative;
+  border: none;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #ffffff;
+  width: 148px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  > ul {
+    width: 100%;
+    > li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      user-select: none;
+      transition: all 300ms ease;
+    }
+    > li:hover {
+      transform: translateX(8px);
+      > ion-icon {
+        color: rgb(79, 60, 250);
+      }
+    }
+    > li ion-icon {
+      height: 18px;
+      width: 18px;
+    }
+  }
+}
+.dropdown:hover {
+  cursor: pointer;
+}
+.dropdown.active + .dropdown-content {
+  display: flex;
+  animation: dropdown-content 350ms 0s 1 forwards
+    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+@keyframes dropdown-content {
+  0% {
+    transform: translateY(-5px);
+    opacity: 0;
+    height: 0%;
+  }
+  100% {
+    transform: translateY(10px);
+    opacity: 1;
+    height: 190px;
+  }
+}
+
+/* MOBILE NAVBAR */
+.mobile-nav-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  width: 100%;
+  height: 72px;
+  padding: 4px;
+  background-color: #161616;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  > hr {
+    border: 2px solid gray;
+    border-radius: 12px;
+    width: 100px;
+  }
+}
+.mobile-nav {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  color: white;
+  width: 100%;
+  padding: 8px 0px;
+  > li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 12px;
+    > p {
+      display: none;
+    }
+    > * {
+      transition: all 260ms ease-in-out;
+    }
+  }
+  > li.active {
+    background: rgba(134, 76, 228, 0.212);
+    animation: nav-button 300ms 0s 1 forwards ease-out;
+    user-select: none;
+    > p {
+      display: flex;
+      animation: nav-button-text 300ms 0s 1 forwards ease-out;
+    }
+    > * {
+      color: rgb(170, 147, 253);
+    }
+  }
+  > li > ion-icon {
+    height: 24px;
+    width: 24px;
+    flex-shrink: 0;
+    color: white;
+  }
+  > li:hover:not(li.active) {
+    > * {
+      color: rgb(170, 147, 253);
+      cursor: pointer;
+    }
+  }
+}
+@keyframes nav-button {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+@keyframes nav-button-text {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* MEDIA QUERIES */
+@media only screen and (max-width: 768px) {
+  main {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100vw;
+  }
+  section > p {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .mobile-nav-container {
+    width: 100%;
+    .mobile-nav > li {
+      > ion-icon {
+        height: 18px;
+        width: 18px;
+      }
+      > p {
+        font-size: 0.8em;
+      }
+    }
+  }
+}
