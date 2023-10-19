@@ -1,7 +1,23 @@
 export default class Components {
   static loadComponents() {
+    // implement intersection observer on whole grid + animation
     Components.dropDownMenu();
     Components.mobileNavBar();
+    Components.carousel();
+
+    const sections = document.querySelectorAll(".container>section");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("active", entry.isIntersecting);
+          if (entry.isIntersecting) observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.5 }
+    );
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
   }
 
   static dropDownMenu() {
@@ -90,8 +106,79 @@ export default class Components {
       });
     }
   }
+
+  static carousel() {
+    const section = document.querySelector(".carousel");
+    const container = document.createElement("div");
+    const slider = document.createElement("div");
+    const buttonLeft = document.createElement("button");
+    const buttonRight = document.createElement("button");
+    const indicator = document.createElement("div");
+
+    container.classList.add("carousel-container");
+    slider.classList.add("carousel-slider");
+    buttonLeft.classList.add("carousel-button-left");
+    buttonRight.classList.add("carousel-button-right");
+    indicator.classList.add("carousel-indicator");
+
+    buttonLeft.innerHTML = `<ion-icon name="chevron-back"></ion-icon>`;
+    buttonRight.innerHTML = ` <ion-icon name="chevron-forward"></ion-icon>`;
+    slider.innerHTML = `           
+      <div class="carousel-item"></div>
+      <div class="carousel-item"></div>
+      <div class="carousel-item"></div>
+      <div class="carousel-item"></div>`;
+    indicator.innerHTML = ` 
+    <div class="indicator"></div>
+    <div class="indicator"></div>
+    <div class="indicator"></div>
+    <div class="indicator"></div>`;
+
+    container.appendChild(buttonLeft);
+    container.appendChild(slider);
+    container.appendChild(buttonRight);
+    section.appendChild(container);
+    section.appendChild(indicator);
+
+    // add mouse event to prevent drag conflict
+    const sliderItems = document.querySelectorAll(".carousel-item");
+    handleUI();
+    buttonLeft.addEventListener("click", () => {
+      slider.scrollLeft = slider.scrollLeft - sliderItems[0].offsetWidth;
+      handleUI();
+    });
+    buttonRight.addEventListener("click", () => {
+      slider.scrollLeft = slider.scrollLeft + sliderItems[0].offsetWidth;
+      handleUI();
+    });
+    function handleUI() {
+      const indicators = document.querySelectorAll(".indicator");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            entry.target.classList.toggle("active", entry.isIntersecting);
+            indicators.forEach((indicator) => {
+              indicator.classList.remove("active");
+            });
+            sliderItems.forEach((card, index) => {
+              if (card.classList.contains("active")) {
+                indicators[index].classList.add("active");
+              }
+            });
+          });
+        },
+        { threshold: 1 }
+      );
+
+      sliderItems.forEach((card) => {
+        observer.observe(card);
+      });
+    }
+  }
+
+  static sideBar() {
+    // add hamburger icon animation (= to x)
+  }
 }
 
 document.addEventListener("DOMContentLoaded", Components.loadComponents);
-
-// try to implement masonry grid API?
