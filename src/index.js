@@ -124,10 +124,34 @@ export default class Components {
     buttonLeft.innerHTML = `<ion-icon name="chevron-back"></ion-icon>`;
     buttonRight.innerHTML = ` <ion-icon name="chevron-forward"></ion-icon>`;
     slider.innerHTML = `           
-      <div class="carousel-item"></div>
-      <div class="carousel-item"></div>
-      <div class="carousel-item"></div>
-      <div class="carousel-item"></div>`;
+      <div class="carousel-item">
+        <div>
+          <div>
+            <p class="carousel-title">Court Legacy Lift</p>
+            <p class="carousel-description">Women's Shoes</p>
+          </div>
+          <p class="carousel-amount"><b>$120</b></p>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <div>
+          <div>
+            <p class="carousel-title">Court Legacy Lift</p>
+            <p class="carousel-description">Women's Shoes</p>
+          </div>
+          <p class="carousel-amount"><b>$120</b></p>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <div></div>
+      </div>
+
+      <div class="carousel-item">
+        <div></div>
+      </div>`;
+
     indicator.innerHTML = ` 
     <div class="indicator"></div>
     <div class="indicator"></div>
@@ -167,7 +191,7 @@ export default class Components {
             });
           });
         },
-        { threshold: 1 }
+        { threshold: 0.7 }
       );
 
       sliderItems.forEach((card) => {
